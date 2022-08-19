@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta
+      name="author"
+      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
+    />
+    <meta name="generator" content="Hugo 0.101.0" />
+    <title>An Giang Blog</title>
+    <link
+      rel="icon"
+      href="https://www.pngitem.com/pimgs/m/523-5236058_nh-icon-hot-hnh-hd-png-download.png"
+      type="image/x-icon"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    <link href="./css/dashboard.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900"
+      rel="stylesheet"
+    />
+    <!-- Custom styles for this template -->
+    <link href="./css/blog.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container-fluid" id="pageadmin">
+      <div class="row">
+        <nav
+          id="sidebarMenu"
+          class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+        >
+          <div class="sidebar-sticky pt-3">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" onclick="eventClickTrangChu()">
+                  <span data-feather="home"></span>
+                  Trang chủ <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="eventClickDSDH()">
+                  <span data-feather="file"></span>
+                  Danh sách đơn hàng
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="eventClickDSXN()">
+                  <span data-feather="shopping-cart"></span>
+                  Danh sách đã xác nhận hàng
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="eventClickDSShip()">
+                  <span data-feather="truck"></span>
+                  Danh sách đang giao hàng
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="eventClickDSShip()">
+                  <span data-feather="truck"></span>
+                  Danh sách từ chối
+                </a>
+              </li>
+              <!--<li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="users"></span>
+                  Customers
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="bar-chart-2"></span>
+                  Reports
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="layers"></span>
+                  Integrations
+                </a>
+              </li>-->
+            </ul>
+          </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">Dashboard</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-secondary"
+                  onclick="resetDonhang()"
+                >
+                  Reset Đơn
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-secondary"
+                  onclick="dangxuat();"
+                >
+                  Đăng xuất
+                </button>
+              </div>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-secondary dropdown-toggle"
+              >
+                <span data-feather="calendar"></span>
+                This week
+              </button>
+            </div>
+          </div>
+          <div id="displayadminpage"></div>
+        </main>
+      </div>
+    </div>
+    <div class="container" id="firstpageuser">
+      <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+          <div class="col-4 pt-1"></div>
+          <div class="col-4 text-center"></div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Giỏ hàng của tôi
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="giohang"></div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      id="btnxoagiohang"
+                    >
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      id="btnMuaHangGioHang"
+                      data-toggle="modal"
+                      data-target="#staticBackdrop3"
+                    >
+                      Thanh Toán
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="modal fade"
+              id="exampleModal2"
+              data-backdrop="static"
+              data-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                      Thông tin cá nhân
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="hienthithongtin"></div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onclick="dangxuat()"
+                    >
+                      Dang xuat
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="container fixed-top bg-light">
+        <div class="row">
+          <div class="col-4 mt-1">
+            <h3 class="font-size:boild" id="clock">Time</h3>
+          </div>
+          <div class="col-4 text-center">
+            <a class="blog-header-logo text-dark" href="#">An Giang Blog</a>
+          </div>
+          <div class="col-4 mt-3">
+            <div class="row">
+              <a
+                class="p-2 text-muted"
+                onclick="statusbar('blog')"
+                id="blog"
+                href="#maindisplay"
+                ><b>Blog</b></a
+              >
+              <a
+                class="p-2 text-muted"
+                onclick="statusbar('food')"
+                id="food"
+                href="#maindisplay"
+                ><b>Food</b></a
+              >
+              <a class="p-2 text-muted" href="#todo">ToDoList</a>
+              <a class="p-2 text-muted" href="#calculator">Calculator</a>
+
+              <i
+                style="margin-right: 25px; margin-top: 10px"
+                class="fa fa-shopping-basket fa-lg"
+                aria-hidden="true"
+                data-toggle="modal"
+                data-target="#exampleModal"
+                onclick="xemgiohang()"
+                ><span
+                  id="soluonggiohang"
+                  style="margin-top: 5px; margin-left: 0px"
+                  class="badge badge-pill"
+                  ><p id="soluong"></p></span
+              ></i>
+              <i
+                class="fa fa-truck fa-2x"
+                aria-hidden="true"
+                style="padding-right: 5px"
+                onclick="tinhtranggiaohang()"
+              ></i>
+              <p id="imgUser"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- </nav> -->
+      <!-- </div> -->
+
+      <div
+        class="jumbotron p-4 p-md-5 text-white rounded bg-dark mt-5"
+        id="background-firstpage"
+        style="height: 500px; background-size: cover"
+      >
+        <div class="col-md-6 px-0">
+          <p class="lead my-3">
+            An Giang là một tỉnh miền Tây Nam Bộ, bắt đầu từ chỗ sông Mê Kông
+            chảy vào nước ta được chia làm đôi. Phía đông An Giang giáp Đồng
+            Tháp, phía đông nam giáp Tp. Cần Thơ, phía tây nam giáp Kiên Giang,
+            phía tây và tây bắc giáp nước Cam-pu-chia.
+          </p>
+          <p class="lead mb-0">
+            <a
+              href="https://danatourism.com.vn/gioi-thieu-tong-quan-ve-an-giang/#:~:text=An%20Giang%20l%C3%A0%20m%E1%BB%99t%20t%E1%BB%89nh%20mi%E1%BB%81n%20T%C3%A2y%20Nam,gi%C3%A1p%20%C4%90%E1%BB%93ng%20Th%C3%A1p%2C%20ph%C3%ADa%20%C4%91%C3%B4ng%20nam%20gi%C3%A1p%20Tp."
+              class="text-white font-weight-bold"
+              >Continue reading...</a
+            >
+          </p>
+        </div>
+        <a id="changebackground" style="float: right"
+          ><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i
+        ></a>
+      </div>
+
+      <section id="maindisplay" class="d-flex align-items-center"></section>
+    </div>
+    <br />
+    <section id="todo" class="d-flex align-items-center"></section>
+    <main
+      role="main"
+      class="container"
+      style="padding-bottom: 100px"
+      id="bodypageuser"
+    >
+      <div class="row">
+        <div class="col-md-8 blog-main mb-4">
+          <h3 class="pb-4 mb-4 font-italic border-bottom">
+            An Giang Blog <i class="fa fa-heart" aria-hidden="true"></i
+            ><i
+              style="margin-right: 5px; float: right"
+              class="fa fa-shopping-basket"
+              aria-hidden="true"
+              data-toggle="modal"
+              data-target="#exampleModal"
+              onclick="xemgiohang()"
+            ></i>
+          </h3>
+          <div class="row" style="height: 700px">
+            <div id="mainblog" style="width: 100%"></div>
+          </div>
+          <div class="row"><div id="menu"></div></div>
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8" style="margin-top: 20px; width: 100%">
+              <div id="foodlist"></div>
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+        <!-- /.blog-main -->
+
+        <aside class="col-md-4 blog-sidebar">
+          <div class="p-4 mb-1 bg-light rounded">
+            <h4 class="font-italic">Today's work</h4>
+            <br />
+            <form class="form-inline">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputtodo"
+                  style="width: 85%"
+                />
+                <a id="btntodo" style="float: left"
+                  ><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i
+                ></a>
+              </div>
+            </form>
+            <h4 class="font-italic">Work list</h4>
+
+            <div id="tabledata">DAta</div>
+          </div>
+          <div style="background-color: rgb(250, 250, 241)">
+            <strong style="color: fuchsia"
+              >GET API GetUOMListForComboBox</strong
+            >
+            <div id="tableapiget">Day la table api get</div>
+            <strong id="kqget" style="color: red; font-size: 30px">KQ:</strong>
+          </div>
+
+          <div class="p-4" style="margin-bottom: 1000px">
+            <h4 class="font-italic">Elsewhere</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">GitHub</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">Facebook</a></li>
+            </ol>
+          </div>
+        </aside>
+        <!-- /.blog-sidebar -->
+      </div>
+      <!-- /.row -->
+      <div class="row mb-2">
+        <div class="container-fluid"></div>
+        <section id="calculator" class="d-flex align-items-center"></section>
+        <div class="col-md-6 bg-light border">
+          <strong style="font-size: 20px; color: deepskyblue">Calculator</strong
+          ><br />
+          <label class="text-primary">Số A:</label>
+          <input
+            id="soa"
+            value="20"
+            type="number"
+            class="form-control form-control-lg"
+          />
+          <label class="text-primary">Số B:</label>
+          <input
+            id="sob"
+            value="10"
+            type="number"
+            class="form-control form-control-lg"
+          />
+
+          <div>KQ:</div>
+
+          <input
+            id="kqcalculate"
+            class="form-control form-control-lg"
+            readonly
+          />
+          <br />
+          <a id="btnadd"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></a>
+          <a id="btnsub"
+            ><i class="fa fa-minus fa-2x" aria-hidden="true"></i
+          ></a>
+          <a id="btnmul"
+            ><i class="fa fa-times fa-2x" aria-hidden="true"></i
+          ></a>
+          <a id="btndiv">
+            <span data-feather="divide" style="width: 30px; height: 30px"></span
+          ></a>
+        </div>
+        <div class="col-md-6 bg-light border">
+          <strong style="font-size: 20px; color: rgb(255, 132, 0)"
+            >TIP Calculator</strong
+          ><br />
+          <div id="calculator">
+            <label class="text-primary" style="font-style: italic"
+              >How much was your bill?</label
+            >
+            <input
+              id="billamt"
+              type="text"
+              placeholder="Bill Amount"
+              value="100"
+            />
+            <label
+              class="text-primary"
+              style="font-style: italic; margin-top: 3px"
+              >How was your service?</label
+            >
+
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01"
+                  >Options</label
+                >
+              </div>
+              <select class="custom-select" id="inputGroupSelect01">
+                <option disabled selected value="0">
+                  -- Choose an Option --
+                </option>
+                <option value="0.3">30&#37; &#45; Outstanding</option>
+                <option value="0.2">20&#37; &#45; Good</option>
+                <option value="0.15">15&#37; &#45; It was OK</option>
+                <option value="0.1">10&#37; &#45; Bad</option>
+                <option value="0.05">5&#37; &#45; Terrible</option>
+              </select>
+            </div>
+            <!--<select id="serviceQual">
+                  <option disabled selected value="0">-- Choose an Option --</option>
+                  <option value="0.3">30&#37; &#45; Outstanding</option>
+                  <option value="0.2">20&#37; &#45; Good</option>
+                  <option value="0.15">15&#37; &#45; It was OK</option>
+                  <option value="0.1">10&#37; &#45; Bad</option>
+                  <option value="0.05">5&#37; &#45; Terrible</option>
+            </select>-->
+
+            <label
+              class="text-primary"
+              style="font-style: italic; margin-top: 2px"
+              >How many people are sharing the bill?</label
+            >
+            <input
+              class="mb-4"
+              id="peopleamt"
+              type="text"
+              placeholder="Number of People"
+            />
+
+            <a id="btntip"
+              ><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i></a
+            ><br />
+            <div class="row" style="float: right">
+              <b>Số tiền nhận:</b>
+              <div id="kqtip"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="position-fixed bottom-0 right-0 p-3"
+        style="z-index: 5; right: 0; bottom: 0"
+      >
+        <div
+          id="liveToast"
+          class="toast hide"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-delay="3000"
+        >
+          <div class="toast-header">
+            <strong class="mr-auto" style="color: greenyellow"
+              >Thông báo</strong
+            >
+            <small>Now</small>
+            <button
+              type="button"
+              class="ml-2 mb-1 close"
+              data-dismiss="toast"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="toast-body">Thêm giỏ hàng thành công</div>
+        </div>
+      </div>
+      <div
+        class="position-fixed top-2 right-5 p-3"
+        style="z-index: 5; right: 21%; top: 50px; width: 400px"
+      >
+        <div
+          id="liveToast2"
+          class="toast hide"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-delay="3000"
+        >
+          <div class="toast-header">
+            <strong class="mr-auto" style="color: rgb(240, 75, 75)"
+              >Thông báo</strong
+            >
+            <small style="color: blue">Now</small>
+            <button
+              type="button"
+              class="ml-2 mb-1 close"
+              data-dismiss="toast"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="toast-body">
+            <div id="toastmess"></div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="staticBackdrop2"
+        data-backdrop="static"
+        data-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel2">
+                Cập nhật mật khẩu
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="khungthaydoimatkhau"></div>
+            </div>
+            <div class="modal-footer">
+              <b onclick="eventDoiMatKhau()">Đổi mật khẩu</b>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="staticBackdrop3"
+        data-backdrop="static"
+        data-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                Thông tin đặt hàng
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="hienthithanhtoan"></div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onclick="thanhtoangiohang()"
+              >
+                Understood
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- /.container -->
+
+    <footer class="blog-footer" id="footeruser"></footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      window.jQuery ||
+        document.write(
+          '<script src="./assets/js/vendor/jquery.slim.min.js"><\/script>'
+        );
+    </script>
+    <script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="./js/dashboard.js"></script>
+    <script src="./js/script.js"></script>
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"
+    ></script>
+  </body>
+</html>
